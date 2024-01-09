@@ -1,0 +1,10 @@
+---
+  import Layout from '../layouts/default.astro';
+  const { frontmatter, title } = Astro.props
+---
+
+<Layout title={title ? title : frontmatter.title}>
+  <section class="block page">
+    <slot />
+  </section>
+</Layout>
