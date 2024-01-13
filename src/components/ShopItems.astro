@@ -1,17 +1,30 @@
 ---
   import {formatCurrency} from '../utils/currency';
   import {getShopItems} from '../services/api';
+  import AddToCart from '../components/AddToCart';
   const shopItems = await getShopItems();
+
+  interface Props {
+    count?: number;
+    addToCart?: boolean;
+  };
+
+  const { count = Infinity, addToCart = true } = Astro.props;
+
 ---
 
 <ul class="shop-items">
-  {shopItems.map(item => (
+  {shopItems.slice(0, count).map(item => (
       <article class="item">
         <img src={item.image.src} alt={item.image.alt}>
         <h2>{item.title}</h2>
         <p class="description">{item.description}</p>
         <p class="price">{formatCurrency(item.price)}</p>
         <p>TODO: add button cart</p>
+        {
+          addToCart ?
+          <AddToCart item={item} client:only="react"/> : null
+        }
       </article>
     ))
   }
